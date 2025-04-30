@@ -36,10 +36,28 @@ entity controller_fsm is
            i_adv : in STD_LOGIC;
            o_cycle : out STD_LOGIC_VECTOR (3 downto 0));
 end controller_fsm;
-
 architecture FSM of controller_fsm is
+        signal f_Q: std_logic_vector (3 downto 0):= "0001";
+        signal f_Q_next: std_logic_vector(3 downto 0);
 
 begin
 
+        --otherwise, the state depends on the current state and the buttonc
+        FSM: process(i_adv)
+            begin
+                if(i_reset = '1') then
+                    f_Q <= "0001";
+                elsif(rising_edge(i_adv)) then
+                    f_Q <= f_Q_next;
+                end if;
+            end process;
+        
+        f_Q_next(0) <= f_Q(3);
+        f_Q_next(1) <= f_Q(0);
+        f_Q_next(2) <= f_Q(1);
+        f_Q_next(3) <= f_Q(2);
+                    
+        o_cycle <= f_Q;
+    
 
 end FSM;
