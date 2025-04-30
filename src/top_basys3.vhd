@@ -48,8 +48,10 @@ architecture top_basys3_arch of top_basys3 is
 	Signal w_btnU: std_logic;
 	--registers
     signal w_A, w_B: std_logic_vector(7 downto 0):=x"00";
+
     --ALU
     signal w_result, w_bin: std_logic_vector(7 downto 0);
+    signal w_op: std_logic_vector(2 downto 0):="000";
     --controller output
     signal w_cycle: std_logic_vector(3 downto 0);
     
@@ -150,7 +152,7 @@ begin
     port map(
         i_A => w_A,
         i_B => w_B,
-        i_op => sw(2 downto 0),
+        i_op => w_op,
         o_result => w_result,
         o_flags => led(15 downto 12)
     );
@@ -216,6 +218,14 @@ begin
 	       i_hex => w_hex,
 	       o_seg_n => w_seg
 	);
+	
+	--process to select the operation
+	op: process(w_cycle(4))
+	   begin
+	   if rising_edge(w_cycle(3)) then
+	       w_op <= sw(2 downto 0);
+	   end if;
+	   end process op;
 	
 	--mux to select a number from seven seg decoder or to display the sign
 	with w_sel select
