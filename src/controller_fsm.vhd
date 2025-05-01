@@ -43,7 +43,7 @@ architecture FSM of controller_fsm is
 begin
 
         --otherwise, the state depends on the current state and the buttonc
-        FSM: process(i_adv)
+        FSM: process(i_adv, i_reset)
             begin
                 if(i_reset = '1') then
                     f_Q <= "0001";
