@@ -88,7 +88,7 @@ begin
      o_flags(1) <= w_Cout and not i_op(1);
      
      --Overflow
-     o_flags(0) <= not i_op(1) and (w_result(7) xor i_B(7)) and (i_A(7) xnor i_B(7) xnor i_op(0));
+     o_flags(0) <= not i_op(1) and (w_result(7) xor i_A(7)) and (((i_A(7) xnor i_B(7)) and not i_op(0)) or  ((i_A(7) xor i_B(7)) and i_op(0)));
      
      --zero flag
      o_flags(2) <= not w_result(0) and not w_result(1) and
